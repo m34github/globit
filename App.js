@@ -1,21 +1,50 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StatusBar, View } from 'react-native';
+import { AppLoading, Font } from "expo";
+import { Ionicons } from '@expo/vector-icons';
+import { Container } from 'native-base';
+import { Provider } from 'unstated';
 
 import AppContainer from './components/AppContainer';
 
-export default class App extends React.Component {
+class App extends React.Component {
+  state = {
+    isReady: false
+  };
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'Roboto': require('native-base/Fonts/Roboto.ttf'),
+      'Roboto_medium': require('native-base/Fonts/Roboto_medium.ttf'),
+      ...Ionicons.font,
+    });
+
+    this.setState({
+      isReady: true
+    });
+  }
+
   render() {
+    if (!this.state.isReady) {
+      return (
+        <AppLoading />
+      );
+    }
+
     return (
-      <AppContainer />
+      <Provider>
+        <Container style={style.rootView}>
+          <AppContainer />
+        </Container>
+      </Provider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+const style = {
+  rootView: {
+    paddingTop: StatusBar.currentHeight
+  }
+};
+
+export default App;
