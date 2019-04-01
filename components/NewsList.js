@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import {
   Body,
   Button,
@@ -15,11 +15,11 @@ import {
   Right,
   Tab,
   Tabs,
-  Title,
   Thumbnail
 } from 'native-base';
 import axios from 'axios';
 
+import GlobalHeader from './GlobalHeader';
 import Loader from './Loader';
 
 class NewsList extends React.Component {
@@ -57,22 +57,20 @@ class NewsList extends React.Component {
 
     return (
       <Container>
-        <Header>
-          <Body>
-            <Title>Globit</Title>
-          </Body>
-        </Header>
+        <GlobalHeader />
 
         <Content style={style.cardList}>
           {
             this.state.news.articles.map((article, i) => (
               <Card key={i}>
-                <CardItem>
+                <CardItem button onPress={() => {
+                  this.props.navigation.push('NewsDetail', { article });
+                }}>
                   <Body>
                     <Text>{article.title}</Text>
                   </Body>
                   <Right>
-                    <Thumbnail square large source={{uri: article.urlToImage}} />
+                    <Thumbnail square large source={{ uri: article.urlToImage }} />
                   </Right>
                 </CardItem>
               </Card>
