@@ -1,105 +1,74 @@
 import React from 'react';
-import { Text } from 'react-native';
+import { Subscribe } from 'unstated';
 import {
   Body,
-  Button,
   Card,
   CardItem,
   Container,
   Content,
-  Footer,
-  FooterTab,
-  Header,
-  Icon,
-  Left,
   Right,
-  Tab,
-  Tabs,
-  Thumbnail
+  Text,
+  Thumbnail,
+  View
 } from 'native-base';
-import axios from 'axios';
 
+import NewsListContainer from '../containers/NewsListContainer';
 import GlobalHeader from './GlobalHeader';
-import Loader from './Loader';
+import GlobalLoader from './GlobalLoader';
+import GlobalFooter from './GlobalFooter';
+import style from '../style';
 
-class NewsList extends React.Component {
-  state = {
-    news: {},
-    isReady: false
-  };
-
-  getNews = () => {
-    params = {
-      apiKey: '43394ce4de5a4f15980c93668c28af85',
-      country: 'us'
-    };
-
-    axios({
-      method: 'get',
-      url: `https://newsapi.org/v2/top-headlines?apiKey=${params.apiKey}&country=${params.country}`,
-    })
-    .then(res => {
-      this.setState({
-        news: res.data,
-        isReady: true
-      });
-    });
-  };
-
+class NewsListComponent extends React.Component {
   componentDidMount() {
-    this.getNews();
+    const { newsList } = this.props;
+
+    newsList.getNewsList();
   }
 
   render() {
-    if (!this.state.isReady) {
-      return ( <Loader /> );
+    const { navigation, newsList } = this.props;
+
+    if (!newsList.state.isLoaded) {
+      return (
+        <GlobalLoader />
+      );
     }
 
     return (
       <Container>
         <GlobalHeader />
 
-        <Content style={style.cardList}>
-          {
-            this.state.news.articles.map((article, i) => (
-              <Card key={i}>
-                <CardItem button onPress={() => {
-                  this.props.navigation.push('NewsDetail', { article });
-                }}>
-                  <Body>
-                    <Text>{article.title}</Text>
-                  </Body>
-                  <Right>
-                    <Thumbnail square large source={{ uri: article.urlToImage }} />
-                  </Right>
-                </CardItem>
-              </Card>
-            ))
-          }
+        <Content style={style.newsList.content}>
+          <View>
+            {
+              newsList.state.news.articles.map((article, i) => (
+                <Card key={i}>
+                  <CardItem button onPress={() => {
+                    navigation.push('NewsDetail', { article });
+                  }}>
+                    <Body>
+                      <Text>{article.title}</Text>
+                    </Body>
+                    <Right>
+                      <Thumbnail square large source={{ uri: article.urlToImage }} />
+                    </Right>
+                  </CardItem>
+                </Card>
+              ))
+            }
+          </View>
         </Content>
 
-        <Footer>
-          <FooterTab>
-            <Button>
-              <Icon type="MaterialIcons" name="description" />
-            </Button>
-            <Button>
-              <Icon type="MaterialCommunityIcons" name="tag-multiple" />
-            </Button>
-            <Button>
-              <Icon type="MaterialIcons" name="bookmark" />
-            </Button>
-          </FooterTab>
-        </Footer>
+        <GlobalFooter />
       </Container>
     );
   }
 }
 
-const style = {
-  cardList: {
-    padding: 12
-  }
-};
+const NewsList = props => (
+  <Subscribe to={[NewsListContainer]}>
+    { newsList => <NewsListComponent navigation={props.navigation} newsList={newsList} /> }
+  </Subscribe>
+);
 
 export default NewsList;
