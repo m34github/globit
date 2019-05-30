@@ -1,23 +1,30 @@
 {
-  "main": "node_modules/expo/AppEntry.js",
-  "scripts": {
-    "start": "expo start",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
-    "eject": "expo eject"
-  },
+  "name": "Globit",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/m34github/globit.git",
+  "author": "Makoto Mori <m34.memento.mori@gmail.com>",
+  "license": "MIT",
   "dependencies": {
-    "axios": "^0.18.0",
-    "expo": "^32.0.0",
-    "native-base": "^2.12.0",
-    "react": "16.5.0",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-native-cheerio": "^1.0.0-rc.4",
-    "react-navigation": "^3.3.0",
-    "unstated": "^2.1.1"
+    "@babel/core": "^7.4.5",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0",
+    "@material-ui/core": "^4.0.1",
+    "babel-loader": "^8.0.6",
+    "prettier": "^1.17.1",
+    "prettier-webpack-plugin": "^1.2.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
+    "unstated": "^2.1.1",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1"
   },
-  "devDependencies": {
-    "babel-preset-expo": "^5.0.0"
-  },
-  "private": true
+  "scripts": {
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "start": "webpack-dev-server --mode development"
+  }
 }
