@@ -1,11 +1,11 @@
 import React from 'react';
-import { StatusBar, View } from 'react-native';
+import { Provider } from 'unstated';
 import { AppLoading, Font } from "expo";
 import { Ionicons } from '@expo/vector-icons';
 import { Container } from 'native-base';
-import { Provider } from 'unstated';
 
 import AppContainer from './components/AppContainer';
+import style from './style';
 
 class App extends React.Component {
   state = {
@@ -33,18 +33,12 @@ class App extends React.Component {
 
     return (
       <Provider>
-        <Container style={style.rootView}>
+        <Container style={style.app.root}>
           <AppContainer />
         </Container>
       </Provider>
     );
   }
 }
-
-const style = {
-  rootView: {
-    paddingTop: StatusBar.currentHeight
-  }
-};
 
 export default App;

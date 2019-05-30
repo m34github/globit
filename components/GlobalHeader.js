@@ -1,9 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
 import {
   Body,
   Header,
-  Title
+  Title,
+  View
 } from 'native-base';
 
 class GlobalHeader extends React.Component {
