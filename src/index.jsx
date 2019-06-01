@@ -6,18 +6,23 @@ import {
   Redirect,
   Switch
 } from 'react-router-dom';
+import { Provider } from 'unstated';
 
-import NewsList from './components/NewsList.jsx';
+import NewsList from './containers/NewsList';
+import NewsDetail from './containers/NewsDetail';
 
 class App extends React.Component {
   render() {
     return (
-      <Router>
-        <Switch>
-          <Route path="/news/list" component={NewsList} />
-          <Redirect to="/news/list" />
-        </Switch>
-      </Router>
+      <Provider>
+        <Router>
+          <Switch>
+            <Route path="/news/list" component={NewsList} />
+            <Route path="/news/detail" component={NewsDetail} />
+            <Redirect to="/news/list" />
+          </Switch>
+        </Router>
+      </Provider>
     );
   }
 }
